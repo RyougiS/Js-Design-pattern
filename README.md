@@ -1,2 +1,3 @@
-# Js-Design-pattern
-Js-Design-pattern
+# 一些基础工具，知识管理集合
+
+大部分来自书籍 互联网整合

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+<!--
+单例模式主要目的是确保系统中某个类只存在唯一一个实例，
+也就是说对于这个类的重复实例的创建始终只返回同一个实例
+在JavaScript里，单例可以作为一个命名空间提供者，
+从全局命名空间里提供一个唯一的访问点来访问该对象
+
+
+单例模式的优点
+由于在系统内存中只存在一个对象，因此可以节约系统资源，对于一些需要频繁创建和销毁的对象，单例模式无疑可以提高系统的性能。
+
+命名空间的管理方式,可以有效避免变量的重复,尽量避免使用全局变量
+
+
+单例模式的缺点
+单例模式实现使用了闭包,过多使用闭包会导致内存泄露
+
+单例类的职责过重，在一定程度上违背了“单一职责原则”。因为单例类既充当了工厂角色，提供了工厂方法，同时又充当了产品角色，包含一些业务方法，将产品的创建和产品的本身的功能融合到一起。
+
+
+单例模式适用情况
+系统只需要一个实例对象,或者需要考虑资源消耗太大而只允许创建一个对象。
+
+在javascript中,把功能封装起来,形成一个小型代码库,就可以使用命名空间的方式去实现,按照模块化划分
+
+
+-->
+</body>
+<script type="text/javascript">
+//     var Universe;
+//     (function  () {
+//        var instance;
+//        Universe = function Universe () {
+//            if (instance) {
+//             return instance
+//            };
+//            instance = this;
+//            console.log(this);
+//            this.start_time = 0;
+//            this.bang = "Big"
+//        }
+//     }())
+
+// var Main = {
+//     run:function  () {
+//         console.log("run");
+//     },
+//     jump:function  () {
+//         console.log("jump");
+//     }
+// }
+// Main.run();
+
+var Player = (function() {
+    // 实例
+    var instance = null;
+    // 私有变量
+    var hp = 100; // 生命值
+    var mp = 200; // 魔法值
+    // 初始化函数
+    function init() {
+        return {
+            // 获取生命值
+            getHp: function() {
+                return hp;
+            },
+            // 获取魔法值
+            getMp: function() {
+                return mp;
+            },
+            // 行走方法
+            run: function() {
+                console.log('running');
+            }
+        }
+    }
+    return {
+        // 初始化一个游戏英雄
+        init: function() {
+            // 未存在,则初始化
+            // console.log(instance);
+            if (!instance) {
+                console.log(this);
+                console.log(this.init);
+                console.log(init);
+                instance = init();
+                console.log(instance);
+            }
+            return instance;
+        }
+    }
+})();
+
+// 创建一个游戏英雄
+var person3 = Player;
+console.log(Player);
+var person1 = Player.init();
+console.log(person1.getHp());
+console.log(person1.getMp());
+// 死亡复活
+var person2 = Player.init();
+// 创建的还是之前的对象
+console.log(person1 === person2); // true
+
+
+</script>
+</html>

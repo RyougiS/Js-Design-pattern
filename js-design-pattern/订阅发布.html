@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css" media="screen">
+        .ele{
+            height:30px;
+            width:30px;
+            background-color: #252525;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="ele">
+ABC
+</div>
+</body>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+var pubsubObj = {}
+pubsubObj.list = {}
+
+
+pubsubObj.subscribe = function(key,callback){
+    if (!this.list[key]) {
+        this.list[key] = []
+    };
+    this.list[key].push(callback)
+}
+pubsubObj.publish = function  (key,args) {
+    var fns = this.list[key];
+    if (!fns || fns.length === 0) {
+        return
+    };
+    var len = fns.length;
+    while (len--){
+        fns[len].apply(this,args)
+    }
+}
+pubsubObj.unsubscribe = function  (key,fn) {
+    var fns = this.list[key]
+    if (!fns) {
+        return false;
+    }
+    if (!fn) {
+        fn&&(fns.length = 0)
+    }else{
+        var len = fns.length;
+        while(len--){
+            if (fns[len]===fn) {
+                fns.splice(len,1);
+            };
+        }
+    }
+}
+
+var pubsubClass = {
+    subscribe:function(key,callback){
+        if (!this.list[key]) {
+            this.list[key] = []
+        };
+        this.list[key].push(callback)
+    },
+    publish:function  (key,args) {
+        var fns = this.list[key];
+        if (!fns || fns.length === 0) {
+         return
+        };
+        var len = fns.length;
+        while (len--){
+            fns[len].apply(this,args)
+        }
+    },
+    unsubscribe:function  (key,fn) {
+        var fns = this.list[key]
+        if (!fns) {
+            return false;
+        }
+        if (!fn) {
+            fn&&(fns.length = 0)
+        }else{
+            var len = fns.length;
+            while(len--){
+                if (fns[len]===fn) {
+                    fns.splice(len,1);
+                };
+            }
+        }
+    }
+}
+
+
+</script>
+
+<script>
+    var Event = (function  () {
+        var list = {},listen,trigger,remove;
+        listen = function  (key,fn) {
+            if (!list[key]) {
+                list[key] = []
+            };
+            list[key].push(fn)
+        }
+        trigger = function  () {
+            var key = Array.prototype.shift.call(arguments),
+                fns = list[key];
+            if (!fns || fns.length === 0) {
+                return false;
+            };
+            for (var i = 0; fn; fn = fns[i++]) {
+                fn.apply(this,arguments)
+            };
+        };
+        remove = function  (key,fn) {
+            var fns = list[key];
+            if (!fns) {
+                return false;
+            };
+            if (!fn) {
+                fns&&(fns.length = 0)
+            }else{
+                for (var i = fns.length - 1; i >= 0; i--) {
+                    var _fn = fns[i];
+                    if (_fn === fn) {
+                        fns.splice(i,1)
+                    }
+                }
+            }
+        };
+        return{
+            listen:listen,
+            trigger:trigger,
+            remove:remove
+        }
+    })();
+function d1() {
+    console.log('我是第二个color监听的函数!');
+}
+function d2() {
+    console.log('我是第二个color监听的函数!');
+}
+// 测试代码
+Event.listen("color", d1); // 在 list['color'] 中绑定 d1 函数
+Event.listen("color", d2); // 在 list['color'] 中绑定 d2 函数
+Event.remove('color', d1); // 在 list['color'] 中移除 d1 函数
+Event.trigger("color"); // 我是第二个color监听的函数
+</script>
+</html>

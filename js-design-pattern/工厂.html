@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        工厂模式
+
+使用工厂模式的目的就是创建对象。它通常被在类或者类的静态方法中实现，目的是：
+
+执行在建立相似的对象时进行的一些重复操作
+让工厂的使用者在编译阶段创建对象时不必知道它的特定类型（类）
+第二点在静态的基于类的语言中更重要，因为在（编译阶段）提前不知道类的情况下，创建类的实例是一件多少有些特殊的行为。但在JavaScript中，这部分的实现却是相当容易的事情。
+
+使用工厂方法（或类）创建的对象被设计为从同一个父对象继承；它们是实现一些特定的功能的子类。有些时候这个共同的父对象就是包含工厂方法的同一个类。
+     -->
+</body>
+<script type="text/javascript">
+// 简单工厂模式
+
+var BasketBall = function  () {
+    this.play = function () {
+        console.log('我在打篮球');
+    }
+}
+
+var football = new FootBall();
+football.play();
+var basketball = new BasketBall();
+basketball.play();
+
+/**
+ * 球类工厂
+ */
+var Ball = function(name) {
+    switch (name) {
+        case '足球':
+            return new FootBall();
+        break;
+        case '篮球':
+            return new BasketBall();
+        break;
+    }
+}
+var football =  Ball('足球');
+football.play();
+var basketball =  Ball('篮球');
+basketball.play();
+
+// #简单工厂模式第二种
+
+/**
+ * 球类工厂
+ */
+var Ball = function(name) {
+    // 创建一个对象,对对象扩展扩展属性还有方法
+    var o = new Object();
+    o.name = name;
+    //默认的方法 如果在加上一个羽毛球类,这时候就不需要补充play方法
+    o.play = function () {
+        console.log('我在打'+name);
+    }
+    if (name === '足球') {
+        o.play = function () {
+            console.log('我在踢'+name);
+        }
+    }else if (name === '篮球') {
+        o.play = function () {
+            console.log('我在打'+name);
+        }
+    }
+    // 将对象返回
+    return o;
+}
+var football =  Ball('足球');
+football.play();
+var basketball =  Ball('篮球');
+basketball.play();
+
+// 简单工厂模式的优点:
+
+// 工厂类含有必要的判断逻辑，可以决定在什么时候创建哪一个产品类的实例，客户端可以免除直接创建产品对象的责任，而仅仅“消费”产品；简单工厂模式通过这种做法实现了对责任的分割，它提供了专门的工厂类用于创建对象
+
+// 客户端无须知道所创建的具体产品类的类名，只需要知道具体产品类所对应的参数即可，对于一些复杂的类名，通过简单工厂模式可以减少使用者的记忆量。
+
+// 简单工厂模式的缺点
+
+// 由于工厂类集中了所有产品创建逻辑，一旦不能正常工作，整个系统都要受到影响。
+// 使用简单工厂模式将会增加系统中类的个数，在一定程序上增加了系统的复杂度和理解难度。
+// 系统扩展困难，一旦添加新产品就不得不修改工厂逻辑，在产品类型较多时，有可能造成工厂逻辑过于复杂，不利于系统的扩展和维护。
+//
+// 简单工厂模式总结
+// 简单工厂模式的要点在于：当你需要什么，只需要传入一个正确的参数，就可以获取你所需要的对象，而无须知道其创建细节。
+// 简单工厂模式最大的优点在于实现对象的创建和对象的使用分离，将对象的创建交给专门的工厂类负责，但是其最大的缺点在于工厂类不够灵活，增加新的具体产品需要修改工厂类的判断逻辑代码，而且产品较多时，工厂方法代码将会非常复杂。
+
+</script>
+
+<script>
+// # 工厂方法模式
+// 安全模式创建工厂类
+var Ball = function (type,name) {
+    /**
+     * 安全模式 Ball也可以运行处new Ball的效果
+     */
+    if(this instanceof Ball) {
+        var s = new this[type](name);
+        return s;
+    }else {
+        return new Ball(type,name);
+    }
+}
+// 工厂原型中设置创建所有类型数据对象的基类
+Ball.prototype = {
+    basketBall: function(name) {
+        this.play = function() {
+            console.log('我在打'+name);
+        }
+    },
+    footBall: function(name) {
+        this.play = function() {
+            console.log('我在踢'+name);
+        }
+    },
+    badmintonBall: function(name) {
+        this.play = function() {
+            console.log('我在打'+name);
+        }
+    },
+    // ....
+}
+var football = new Ball('footBall','足球');
+football.play();
+var basketball = new Ball('basketBall','篮球');
+basketball.play();
+var badmintonball = new Ball('badmintonBall','羽毛球');
+badmintonball.play();
+
+// # 工厂方法模式end
+</script>
+
+<script>
+    // # 抽象工厂模式
+var Sport = function(subType, superType) {
+    if( typeof Sport[superType] === 'function'){
+        // 缓存类
+        function F() {};
+        // 继承父类属性和方法
+        F.prototype = new Sport[superType]();
+        // 将子类constructor 指向子类
+        subType.constructor = subType;
+        // 子类原型继承 “父类”
+        subType.prototype = new F();
+    }else {
+        // 不存在抽象类则抛出错误
+        throw new Error('未创建该抽象类');
+    }
+}
+
+// 球类运动抽象类
+Sport.Ball = function () {
+    this.type = 'ball';
+}
+Sport.Ball.prototype = {
+    play: function () {
+        return new Error('抽象方法不能调用');
+    }
+}
+
+// 力量型运动抽象类
+Sport.Power = function () {
+    this.type = 'power';
+}
+Sport.Power.prototype = {
+    play: function () {
+        return new Error('抽象方法不能调用');
+    }
+}
+
+// 速度型运动抽象类
+Sport.Speed = function () {
+    this.type = 'speed';
+}
+Sport.Speed.prototype = {
+    play: function () {
+        return new Error('抽象方法不能调用');
+    }
+}
+
+// 篮球类
+var BasketBall = function (name) {
+    this.name = name;
+};
+// 抽象工厂实现对球类运动的继承
+Sport(BasketBall,'Ball');
+BasketBall.prototype.play = function () {
+    console.log('我在玩'+this.name);
+}
+
+
+// 举重类
+var WeightLifting = function (name) {
+    this.name = name;
+};
+// 抽象工厂实现对力量型运动的继承
+Sport(WeightLifting,'Power');
+WeightLifting.prototype.play = function () {
+    console.log('我在玩'+this.name);
+}
+
+// 跑步类
+var Running = function (name) {
+    this.name = name;
+};
+// 抽象工厂实现对速度运动的继承
+Sport(Running,'Speed');
+Running.prototype.play = function () {
+    console.log('我在'+this.name);
+}
+
+// 抽象工厂模式实现
+var basketBall = new BasketBall('篮球');
+console.log(basketBall.type);//ball
+basketBall.play();
+var weightLifting = new WeightLifting('举重');
+console.log(weightLifting.type);//power
+weightLifting.play();
+var running = new Running('跑步');
+console.log(running.type);//ball
+running.play();
+
+/** 输出结果
+ * ball
+ * 我在玩篮球
+ * power
+ * 我在玩举重
+ * speed
+ * 我在跑步
+ */
+
+
+// # 抽象工厂模式end
+</script>
+</html>
