@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css" media="screen">
+div{
+  width:100px;
+  height:100px;
+  background-color:red;
+}
+
+button{
+  width:50px;
+  height:20px;
+  background-color:green;
+}
+
+ul{
+   width:50px;
+  height:20px;
+  background-color:blue;
+}
+
+ol{
+   width:50px;
+  height:20px;
+  background-color:#252525;
+}
+    </style>
+</head>
+<body>
+    <div><button></button></div>
+
+<ul></ul>
+
+<ol></ol>
+</body>
+<script>
+           var btn = document.querySelector('button');
+        var div = document.querySelector('div');
+                var ul = document.querySelector("ul")
+        var ol = document.querySelector("ol")
+
+
+        btn.addEventListener('click', function(){
+            console.log('冒泡','btn');
+        },false);
+        btn.addEventListener('click', function(){
+            console.log('捕获','btn');
+        },true);
+
+        div.addEventListener('click', function(){
+            console.log('冒泡','div');
+        },false);
+        div.addEventListener('click', function(){
+            console.log('捕获','div');
+        },true);
+
+
+
+
+
+                ul.addEventListener('click', function(){
+            console.log('冒泡','ul');
+        },false);
+        ul.addEventListener('click', function(){
+            console.log('捕获','ul');
+        },true);
+
+
+ ol.addEventListener('click', function(){
+            console.log('捕获','ol');
+        },true);
+ol.addEventListener('click', function(){
+            console.log('冒泡','ol');
+        },false);
+</script>
+</html>
