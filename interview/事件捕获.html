@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Bubbling</title>
+</head>
+<body>
+  <button id="clickMe">Click Me</button>
+</body>
+<script>
+var button = document.getElementById('clickMe');
+var body = document.body;
+
+window.addEventListener("click", function  () {
+    console.log('4. You click window');
+}, true)
+
+document.addEventListener("click", function  () {
+    console.log('3. You click document');
+}, true)
+
+body.addEventListener("click", function  () {
+    console.log('2. You click body');
+}, true)
+
+button.addEventListener("click", function  () {
+    console.log('1. You click Button');
+}, true)
+
+// button.addEventListener('click', function(event) {
+//   // event为事件对象
+//   console.log('1. You click Button');
+//   event.stopPropagation();
+//   console.log('Stop Propagation!');
+// }, false);
+</script>
+</html>
