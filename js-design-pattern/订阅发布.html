@@ -96,7 +96,10 @@ var pubsubClass = {
 
 <script>
     var Event = (function  () {
-        var list = {},listen,trigger,remove;
+        var list = {},
+            listen,
+            trigger,
+            remove;
         listen = function  (key,fn) {
             if (!list[key]) {
                 list[key] = []

@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-12-05 13:35:48
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-12-05 16:18:23
+* @Last Modified time: 2017-12-11 15:43:45
 */
 
 var arr = [1,2,3,1,2,3,4,5,4,5];  //测试样例
@@ -130,3 +130,23 @@ console.log(/a/ === /a/); // false
 console.log({} == {}); // false
 console.log({} === {}); // false
 
+//================================================
+//
+//一个整数，它的各位数字如果是左右对称的，则这个数字是对称数。那么请找出 1 至 10000 中所有的对称数
+//
+function symmetric(){
+    var i=1,
+    str,
+    newStr,
+    result=[];
+    for(;i<1000;i++){
+        str=""+i;
+        newStr=result.map.call(str,function(item){
+        return item;
+    }).reverse().join("");
+    if(str===newStr){
+        result.push(+str);
+    }
+    }
+    return result;
+}
