@@ -81,3 +81,55 @@
 - :disabled       控制表单控件的禁用状态。
 - :checked        单选框或复选框被选中。
 
+## 清除浮动的几种方式，各自的优缺点
+
+- 父级div定义height
+- 结尾处加空div标签clear:both
+- 父级div定义伪类:after和zoom -----最好
+- 父级div定义overflow:hidden
+- 父级div也浮动，需要定义宽度
+- 结尾处加br标签clear:both
+
+```
+* 1 content内容为空格用于修复opera下文档中出现
+*   contenteditable属性时在清理浮动元素上下的空白
+* 2 使用display使用table而不是block：可以防止容器和
+*   子元素top-margin折叠,这样能使清理效果与BFC，IE6/7
+*   zoom: 1;一致
+**/
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/**
+* IE 6/7下使用
+* 通过触发hasLayout实现包含浮动
+**/
+.clearfix {
+    *zoom: 1;
+}
+
+/*清除浮动，触发hasLayout；
+  Zoom属性是IE浏览器的专有属性，它可以设置或检索对象的缩放比例。解决ie下比较奇葩的bug。*/
+
+```
+
+## 如何创建块级格式化上下文(block formatting context),BFC有什么用
+
+- 创建规则：
+    - 根元素
+    - 浮动元素（float不是none）
+    - 绝对定位元素（position取值为absolute或fixed）
+    - display取值为inline-block,table-cell, table-caption,flex, inline-flex之一的元素
+    - overflow不是visible的元素
+- 作用：
+    - 可以包含浮动元素
+    - 不被浮动元素覆盖
+    - 阻止父子元素的margin折叠

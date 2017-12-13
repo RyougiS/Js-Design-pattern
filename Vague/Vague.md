@@ -162,3 +162,275 @@ Base.call(obj);
 // 第三个参数parseInt会忽视, 但第二个参数不会,也就是说,
 // parseInt把传过来的索引值当成进制数来使用.从而返回了NaN.
 ```
+
+## 编写一个方法 求一个字符串的字节长度
+
+```
+function GetBytes(str){
+
+        var len = str.length;
+
+        var bytes = len;
+
+        for(var i=0; i<len; i++){
+
+            if (str.charCodeAt(i) > 255) bytes++;
+
+        }
+
+        return bytes;
+
+    }
+```
+
+## add(1)(2)(3)(4) 输出10
+
+### add(2, 5); // 7 add (2)(5); // 7
+
+```
+var add = function(x,r) {
+
+    if(arguments.length == 1){
+        return function(y) { return x + y; };
+    }else{
+        return x+r;
+    }
+};
+console.log(add(2)(5));
+console.log(add(2,5));
+
+```
+
+### add(1)(2)(3)(4)
+
+```
+function add(num){
+    var sum=0;
+    sum= sum+num;
+    return function tempFun(numB){
+        if(arguments.length===0){
+            return sum;
+        }else{
+            sum= sum+ numB;
+            return tempFun;
+        }
+
+    }
+}
+var result=add(2)(3)(4)(5)();
+console.log(result); //14
+
+```
+
+## HttpRequest中常见的四种ContentType
+
+说到 POST 提交数据方案，包含了 Content-Type 和消息主体编码方式两部分。下面就正式开始介绍它们。
+
+- application/x-www-form-urlencoded
+  - 最常用
+- multipart/form-data
+  - 我们使用表单上传文件时，必须让 form 的 enctyped 等于这个值
+- application/json
+  - 用来告诉服务端消息主体是序列化后的 JSON 字符串
+- text/xml
+
+## 跨域
+
+### 同源策略
+
+- 协议相同
+- 域名相同
+- 端口相同
+
+`http://www.example.com/dir/page.html`
+协议是http://，域名是www.example.com，端口是80
+
+`http://www.example.com/dir2/other.html`：同源
+`http://example.com/dir/other.html`：不同源（域名不同）
+`http://v2.www.example.com/dir/other.html`：不同源（域名不同）
+`http://www.example.com:81/dir/other.html`：不同源（端口不同）
+
+限制
+
+浏览器的两种同源策略会造成跨域问题：
+
+- DOM同源策略。禁止对不同源的页面的DOM进行操作，主要包括iframe、canvas之类的。不同源的iframe禁止数据交互的，含有不同源数据的canvas会受到污染而无法进行操作。
+- XmlHttpRequest同源策略。简单来说就禁止不同源的AJAX请求，主要用来防止CSRF攻击。
+
+- （1） Cookie、LocalStorage 和 IndexDB 无法读取。
+
+- （2） DOM 无法获得。
+
+- （3） AJAX 请求不能发送。
+
+### 简单请求 非简单请求
+
+浏览器会把跨域请求分成两类：简单和非简单请求
+
+简单请求有以下特征：
+  - 请求方法是以下之一
+    - GET
+    - POST
+    - HEAD
+  - 头信息是以下字段之一
+    - Accept
+    - Accept-Language
+    - Content-Language
+    - Last-Event-ID
+    - Content-Type  //不能是application/json
+
+当浏览器把跨域请求识别为简单请求的时候，就会在头信息里附加上一个Origin字段，该字段会把这次请求的来源（协议、域名、端口）带给服务器，服务器就会检查这个请求的来源。要是服务器同意了这个来源呢，在正常回复浏览器的同时，就也附加上几条字段作为回礼：
+
+- Access-Control-Allow-Origin // 这条写着服务同意的来源，或者一个代表所有来源的 “*”
+- Access-Control-Allow-Credentials // 这条写着浏览器可以发Cookie过来了总的来说得到服务器的认可了，这样浏览器就能正常收到回应了
+
+要是不同意，服务器就正常返回数据，啥也不附加，浏览器见不到Access-Control-Allow-Origin会不高兴的，然后就不给你返回的数据了，再然后就是报错，这个错就是上面那这样的（就是提取颜主题色的时候😡）。 而且状态码还是各种各样的，甚至有可能是200
+
+非简单请求
+
+这种不简单的请求，比如PUT或DELETE请求，还有 Content-Type字段类型为application/json的。浏览器会严格一点，在发跨域请求前，会发个“预检”请求看看服务器的态度先，这个预检请求比较特殊，请求方式叫OPTIONS，头信息里不光有Origin字段还有这俩：
+
+- Access-Control-Request-Method // 这条是告诉服务器等会的跨域请求是啥方式
+- Access-Control-Request-Headers // 这条是浏览器跨域请求的时候要额外附加的信息
+
+服务器收到预检请求提交过来的信息后，也会严格一点，不仅检查来源，还检查请求方式和头信息字段。要是服务器同意了，就在正常的HTTP回应中附加上Access-Control-Allow-Origin字段，也同样写着服务同意的来源。这就代表这拿到服务器的认可了，毕竟是经历过严格检查的，接下来的每次跨域请求都会正常进行。要是不同意，服务器也是啥都不附加地正常回应，这个时候浏览器看不见Access-Control-Allow-Origin可是会生气的，连跨域请求都懒得发，直接报错。
+
+https://lleohao.github.io/2017/08/12/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F/
+
+### 解决跨域
+
+主要 AJAX 类解决
+
+- JSONP
+
+网页通过添加一个`<script>`元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。
+
+```
+function addScriptTag(src) {
+  var script = document.createElement('script');
+  script.setAttribute("type","text/javascript");
+  script.src = src;
+  document.body.appendChild(script);
+}
+
+window.onload = function () {
+  addScriptTag('http://example.com/ip?callback=foo');
+}
+
+function foo(data) {
+  console.log('Your public IP address is: ' + data.ip);
+};
+
+//上面代码通过动态添加<script>元素，向服务器example.com发出请求。注意，该请求的查询字符串有一个callback参数，用来指定回调函数的名字，这对于JSONP是必需的。
+//服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。
+```
+
+由于`</script>`元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了foo函数，该函数就会立即调用。作为参数的JSON数据被视为JavaScript对象，而不是字符串，因此避免了使用JSON.parse的步骤。
+
+- WebSocket
+
+WebSocket是一种通信协议，使用ws://（非加密）和wss://（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。
+
+浏览器发出的WebSocket请求的头信息
+
+```
+GET /chat HTTP/1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+Origin: http://example.com
+
+```
+
+上面代码中，有一个字段是Origin，表示该请求的请求源（origin），即发自哪个域名。
+
+正是因为有了Origin这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。如果该域名在白名单内，服务器就会做出如下回应。
+
+```
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+Sec-WebSocket-Protocol: chat
+```
+
+- CORS
+
+CORS是一个W3C标准，全称是”跨域资源共享”（Cross-origin resource sharing）。
+
+只需要后端同学支持就ok (除了携带cookie)。
+
+只要服务器返回的相应中包含头部信息Access-Control-Allow-Origin: domain-name，domain-name为允许跨域的域名，也可以设置成*，浏览器就会允许本次跨域请求。
+
+- 服务器代理转发
+
+后台起一个express服务,让服务器去请求跨域资源然后再返回给客户端
+
+```
+apiRoutes.get('/image', function (req, res) {
+    const Url = (req.query)['0'];
+    https.get(Url, function (response) {
+        response.setEncoding('binary');  //二进制binary
+        var type = response.headers["content-type"];
+        let Data = '';
+        response.on('data', function (data) {    //加载到内存
+            Data += data;
+        }).on('end', function () {          //加载完
+            res.writeHead(200, { 'Access-Control-Allow-Origin': '*', "Content-Type": type });   //设置头，允许跨域
+            res.end(new Buffer(Data, 'binary'));
+        })
+    })
+});
+app.use('/api', apiRoutes)
+
+```
+
+但是 图片需要再做一次跨域处理 不然还是容易出现403不同源
+
+- iframe
+
+- location.hash
+
+这种跨域方法主要是通过设置/监听url的hash部分，来实现跨域，同时需要借助第三个页面来进行辅助。
+
+- document.domain
+
+这种方案主要用于主域相同，子域不同的跨域情况。例如: https://jdc.jd.com/ 和 https://www.jd.com/。
+
+通过在https://www.jd.com/打开一个https://jdc.jd.com/，此时JDC的域名是jdc.jd.com/，通过控制台执行document.domain = 'jd.com';。强制设置主域，实现同源。
+
+- window.name：
+这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。
+
+这种方法的优点是，window.name容量很大，可以放置非常长的字符串；缺点是必须监听子窗口window.name属性的变化，影响网页性能。
+
+- window.postMessage：
+这个API为window对象新增了一个window.postMessage方法，允许跨窗口通信，不论这两个窗口是否同源。
+
+举例来说，父窗口http://aaa.com向子窗口http://bbb.com发消息，调用postMessage方法就可以了。
+
+```
+var popup = window.open('http://bbb.com', 'title');
+popup.postMessage('Hello World!', 'http://bbb.com');
+```
+
+postMessage方法的第一个参数是具体的信息内容，第二个参数是接收消息的窗口的源（origin），即"协议 + 域名 + 端口"。也可以设为*，表示不限制域名，向所有窗口发送。
+
+子窗口向父窗口发送消息的写法类似。
+
+
+`window.opener.postMessage('Nice to see you', 'http://aaa.com');`
+父窗口和子窗口都可以通过message事件，监听对方的消息。
+
+```
+window.addEventListener('message', function(e) {
+  console.log(e.data);
+},false);
+```
+
+- websocket
+
+WebSocket是一种HTML5的一种新的协议，它实现了浏览器与服务器的全双工通信WebSocket的优势是除了可以实现跨域，还有就是可以保持长连接，而不需要通过轮询实现实时性。

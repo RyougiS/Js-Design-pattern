@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-12-12 09:11:31
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-12-12 11:26:36
+* @Last Modified time: 2017-12-13 15:50:51
 */
 
 //=============================================================
@@ -108,3 +108,15 @@ console.log(index, elem);
 }
 // 0 "a"
 // 1 "b"
+//
+
+
+//========================================================
+//判断是否是数组
+//
+if (!Array.isArray) {
+  Array.isArray = function(arg) {
+    return Object.prototype.toString.call(arg) === '[object Array]';
+  };
+}
+
