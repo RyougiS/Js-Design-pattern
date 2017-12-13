@@ -1,3 +1,9 @@
+## 前端三层
+
+- 结构层 html
+- 表示层 css
+- 行为层 JS
+
 ## sessionStorage,localStorage,cookie区别
 
 - 都会在浏览器端保存,有大小限制,同源限制
@@ -146,7 +152,7 @@ obj.__proto__ = Base.prototype;
 Base.call(obj);
 ```
 
-## ["1", "2", "3"].map(parseInt)
+## `["1", "2", "3"].map(parseInt)`
 
 ```
 // 下面的语句返回什么呢:
@@ -325,6 +331,7 @@ function foo(data) {
 //服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。
 ```
 
+
 由于`</script>`元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了foo函数，该函数就会立即调用。作为参数的JSON数据被视为JavaScript对象，而不是字符串，因此避免了使用JSON.parse的步骤。
 
 - WebSocket
@@ -332,6 +339,7 @@ function foo(data) {
 WebSocket是一种通信协议，使用ws://（非加密）和wss://（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。
 
 浏览器发出的WebSocket请求的头信息
+
 
 ```
 GET /chat HTTP/1.1
