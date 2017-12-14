@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+    <div>test1</div>
+    <div>test2</div>
+    <div>test3</div>
+    <div>test4</div>
+    <div>test5</div>
+</body>
+<script>
+    var body = document.body;
+    var list = body.querySelectorAll('div');
+    // list.forEach((item,index)=>{
+    //     item.addEventListener('click',function  () {
+    //         alert(index + 1);
+    //     },false)
+    // })
+    // for (let i = 0; i < list.length; i++) {
+    //     list[i].onclick = function  () {
+    //         alert(i+1)
+    //     }
+    // };
+    // for (var i = 0; i < list.length; i++) {
+    //     (function  (w) {
+    //         list[w].onclick = function  () {
+    //             alert(w + 1)
+    //         }
+    //     })(i)
+    // };
+    // for (var i = 0; i < list.length; i++) {
+    //     (function  (i) {
+    //         list[i].addEventListener('click',function  () {
+    //             alert(i + 1);
+    //         },false)
+    //     })(i)
+    // };
+    // for(var i = 0; i<list.length;i++){
+    //     list[i].onclick = (function(arg){
+    //         return function () {
+    //             alert(arg + 1);
+    //         }
+    //     })(i);
+    // }
+    for (var i = 0; i < 5; i++) {
+        (function  (i) {
+            setTimeout(function  () {
+                console.log(i+1)
+            },i*1000)
+        })(i)
+     };
+</script>
+</html>

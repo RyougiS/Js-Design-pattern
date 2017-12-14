@@ -1,3 +1,12 @@
+## 盒子模型种类
+
+盒子模型分为两类：W3C标准盒子模型和IE盒子模型
+
+这两者的关键差别就在于：
+
+W3C盒子模型——属性高（height）和属性宽（width）这两个值不包含 填充（padding）和边框（border）
+IE盒子模型——属性高（height）和属性宽（width）这两个值包含 填充（padding）和边框（border）
+
 ## display值
 
 - block           块类型。默认宽度为父元素宽度，可设置宽高，换行显示。
@@ -143,3 +152,14 @@ Flash Of Unstyled Content：用户定义样式表加载之前浏览器使用默�
 - 将样式表链接放在页面不同位置时，在IE5/6下某些页面会无样式显示内容且瞬间闪烁，这现象就是文档样式短暂失效（Flash Of Unstyled Content），即FOUC。
 
 解决方法：避免使用@import方法导入CSS,把样式表放到文档的head
+
+## 文字...显示
+
+```
+.demo {
+    display: block;
+    text-overflow: ellipsis; //显示省略符号来代表被修剪的文本，也可以自定义
+    overflow: hidden; //溢出内容隐藏
+    white-space:nowrap; //强制文本在一行内显示
+}
+```

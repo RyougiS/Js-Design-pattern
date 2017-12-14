@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-12-13 11:23:04
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-12-14 10:11:36
+* @Last Modified time: 2017-12-14 17:04:47
 */
 
 var a = {};
@@ -70,6 +70,14 @@ function test () {
 }
 test()
 
+(function  () {
+    var a = b = 'res'
+})()
+console.log(a)
+console.log(b)
+
+
+
 var a = (function  () {
     var i = 0;
     return {
@@ -122,3 +130,72 @@ var Fn = function  (obj) {
 console.log(obj);
 Fn(obj)
 console.log(obj);
+
+
+var a = 2;
+var func = (function  () {
+    var a = 3;
+    return function  () {
+        a++;
+        alert(a)
+    }
+})()
+
+function func1 () {
+    var n = 99;
+    nAdd = function  () {
+        this.n += 1;
+        console.log(this.n)
+    };
+    function func2 () {
+        console.log(n)
+    }
+    return func2;
+}
+var res = func1();
+res();
+nAdd();
+res();
+
+//检测一个字符串 正则
+var reg = /^[0-9]\w{1,50}$/;
+
+window.val = 1;
+var json = {
+    val:10,
+    fn:function  () {
+        this.val += 2
+    }
+};
+json.fn();
+var fn = json.fn;
+fn();
+json.fn.call(window);
+console.log(val + json.val)
+
+(function  () {
+    var val = 1;
+    var json = {
+        val:10,
+        fn:function  () {
+            val += 2
+        }
+    };
+    json.fn();
+    console.log(json.val + val)
+})()
+
+var name = "1"
+var obj = {
+    name : 'obj',
+    dose : function  () {
+        this.name = "dose";
+        return function  () {
+            console.log(this)
+            return this.name
+        }
+    }
+}
+console.log(obj.dose().call(this));
+
+

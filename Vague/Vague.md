@@ -442,3 +442,49 @@ window.addEventListener('message', function(e) {
 - websocket
 
 WebSocket是一种HTML5的一种新的协议，它实现了浏览器与服务器的全双工通信WebSocket的优势是除了可以实现跨域，还有就是可以保持长连接，而不需要通过轮询实现实时性。
+
+## AJAX 请求方法
+
+- 1、GET方法
+  - 发送一个请求来取得服务器上的某一资源
+- 2、POST方法
+  - 向URL指定的资源提交数据或附加新的数据
+- 3、PUT方法
+  - 跟POST方法很像，也是想服务器提交数据。但是，它们之间有不同。PUT指定了资源在服务器上的位置，而POST没有
+- 4、HEAD方法
+  - 只请求页面的首部
+- 5、DELETE方法
+  - 删除服务器上的某资源
+- 6、OPTIONS方法
+  - 它用于获取当前URL所支持的方法。如果请求成功，会有一个Allow的头包含类似“GET,POST”这样的信息
+- 7、TRACE方法
+  - TRACE方法被用于激发一个远程的，应用层的请求消息回路
+- 8、CONNECT方法
+  - 把请求连接转换到透明的TCP/IP通道
+
+```
+$(document).ready(function(){
+  $("#b01").click(function(){
+    htmlobj=$.ajax({
+      url:"/jquery/test1.txt",
+      async:false
+    });
+  $("#myDiv").html(htmlobj.responseText);
+  });
+});
+
+$.ajax({
+  type: 'POST',
+  url: url,
+  data: data,
+  success: success,
+  dataType: dataType,
+  error:function(xhr){
+    console.log(xhr)
+  }
+});
+```
+## 获取浏览器内核信息
+
+`window.navigator.appVersion`
+
