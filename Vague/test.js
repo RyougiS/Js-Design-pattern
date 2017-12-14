@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-12-13 11:23:04
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-12-13 16:09:02
+* @Last Modified time: 2017-12-14 10:11:36
 */
 
 var a = {};
@@ -70,3 +70,55 @@ function test () {
 }
 test()
 
+var a = (function  () {
+    var i = 0;
+    return {
+        aa:function  () {
+            i++;
+            console.log(i);
+        },
+        bb:function  (j) {
+            console.log(j);
+        }
+    }
+})()
+console.log(a);
+aa();
+a.bb(5)
+a.aa();
+a.aa.call(window)
+
+var Fn = function  () {
+    console.log(1);
+    for (var i = 0; i < 5; i++) {
+        var t = i;
+        setTimeout(function  () {
+            console.log(t);
+        },i*1000)
+    };
+    console.log(2);
+}
+
+var Fn = function  () {
+    console.log(1);
+    for (var i = 0; i < 5; i++) {
+        setTimeout(function  () {
+            console.log(i); //异步
+        },i*1000)
+    };
+    console.log(2);
+}
+
+var obj = {
+    name:"aaa"
+}
+var Fn = function  (obj) {
+    var newObj = obj;
+    newObj.name = 'BBB';
+    newObj.type = 'new';
+    console.log(newObj);
+    console.log(obj);
+}
+console.log(obj);
+Fn(obj)
+console.log(obj);

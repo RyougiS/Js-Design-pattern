@@ -11,8 +11,11 @@
 */
 
 
+1+2+ +'4'+1
+1+2+"4" -3
 
-
+void(0)
+//undefined
 
 /*
 obj和obj   永不相等
@@ -139,3 +142,5 @@ Boolean("")
 //"5"
 null + undefined
 //NaN
+
+Object.prototype.toString.call([1,2]).slice(8,-1)

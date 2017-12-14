@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-12-13 16:08:36
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-12-13 17:19:16
+* @Last Modified time: 2017-12-13 17:25:51
 */
 //========================================================
 //获取url字符串参数
@@ -51,3 +51,5 @@ function getUrlParam(k) {
     }
 }
 
+reg = /(\w+)=(\w+)/g
+reg.exec(b)
