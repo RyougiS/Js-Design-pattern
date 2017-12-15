@@ -41,3 +41,20 @@ var reverse = function( str ){
    return newStr;
 };
 reverse('abcde')
+
+//物体平移Animation
+
+//求最大值
+Math.max.apply(null,arr);
+
+//返回值是一个数组，该数组内是n个随机且不重复的整数，且整数取值范围是[2,32]
+function test(n) {
+  var list = [];
+  for (var i = 0; i < n; i++) {
+    var rNum = Math.floor(Math.random()*30+2);
+    if (list.indexOf(rNum) == -1) {
+      list.push(rNum);
+    }
+  }
+  return list;
+}

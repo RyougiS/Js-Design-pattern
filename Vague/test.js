@@ -225,3 +225,51 @@ function cc(i) {
 for (var i = 2; i < 6; i++) {
   console.log(cc(i));
 }
+
+var fullname = 'John';
+var obj = {
+  fullname:'Collin',
+  getFullname:function () {
+      console.log(this);
+      return this.fullname
+  },
+  arrow:()=>{console.log(this); return this.fullname},
+  name:function () {
+    var fn = () => {
+      return console.log(this);
+             console.log(this.fullname);
+    }
+  },
+  prop:{
+    getFullname:function () {
+      console.log(this);
+      return this.fullname
+    },
+    arrow:()=>{console.log(this); return this.fullname}
+  }
+}
+//箭头函数根本没有自己的this，导致内部的this就是外层代码块的this,函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象
+console.log(obj.prop.getFullname());
+var test = obj.prop.getFullname;
+console.log(test());
+
+var x = 1,y=z=0;
+function add(n) {
+  return n = n+2
+}
+y = add(x);
+function add(n) {
+  return n=n+3
+}
+z = add(x)
+
+function foo() {
+  var i = 0;
+  return function () {
+    console.log(i++);
+  }
+}
+var f1 = foo(),f2 = foo();
+f1();
+f1();
+f2();
