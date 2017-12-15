@@ -163,3 +163,79 @@ Flash Of Unstyled Content：用户定义样式表加载之前浏览器使用默�
     white-space:nowrap; //强制文本在一行内显示
 }
 ```
+
+## 页面导入样式时，使用link和@import有什么区别
+
+- (1) link属于XHTML标签，除了加载CSS外，还能用于定义RSS, 定义rel连接属性等作用；而@import是CSS提供的，只能用于加载CSS;
+- (2) 页面被加载的时，link会同时被加载，而@import引用的CSS会等到页面被加载完再加载;
+- (3) import是CSS2.1 提出的，只在IE5以上才能被识别，而link是XHTML标签，无兼容问题;
+- (4) link最大限度支持并行下载，@import过多嵌套导致串行下载，出现FOUC
+- (5) @import必须在样式规则之前，可以在css文件中引用其他文件
+
+## REM
+
+rem屏幕适配之前，先说一下一般做移动端适配的方法，一般可以分为：
+
+- 1 简单一点的页面，一般高度直接设置成固定值，宽度一般撑满整个屏幕。
+
+- 2 稍复杂一些的是利用百分比设置元素的大小来进行适配，或者利用flex等css去设置一些需要定制的宽度。
+
+- 3 再复杂一些的响应式页面，需要利用css3的media query属性来进行适配，大致思路是根据屏幕不同大小，来设置对应的css样式。
+
+REM 意思就是根据网页的根元素来设置字体大小，和em（font size of the element）的区别是，em是根据其父元素的字体大小来设置，而rem是根据网页的跟元素（html）来设置字体大小的
+
+
+### rem基准值计算
+
+1 由于我们所写出的页面是要在不同的屏幕大小设备上运行的
+2 所以我们在写样式的时候必须要先以一个确定的屏幕来作为参考，这个就由我们拿到的视觉稿来定
+3 假如我们拿到的视觉稿是以iphone6的屏幕为基准设计的
+4 iPhone6的屏幕大小是375px，
+`	rem = window.innerWidth  / 10`
+这样计算出来的rem基准值就是37.5
+
+### 动态设置html的font-size
+
+1 利用css的media query来设置
+2 利用scss less的处理函数
+3 利用javascript来动态设置 根据我们之前算出的基准值，我们可以利用js动态算出当前屏幕所适配的font-size
+
+```
+var documentElement = document.documentElement;
+
+function callback() {
+    var clientWidth = documentElement.clientWidth;
+    // 屏幕宽度大于780，不在放大
+    clientWidth = clientWidth < 780 ? clientWidth : 780;
+    documentElement.style.fontSize = clientWidth / 10 + 'px';
+}
+
+document.addEventListener('DOMContentLoaded', callback);
+window.addEventListener('orientationchange' in window ? 'orientationchange' : 'resize', callback);
+```
+
+>需要单独处理高清屏
+
+一般我们获取到的视觉稿大部分是iphone6的，所以我们看到的尺寸一般是双倍大小的，在使用rem之前，我们一般会自觉的将标注/2，其实这也并无道理，但是当我们配合rem使用时，完全可以按照视觉稿上的尺寸来设置。
+
+1 设计给的稿子双倍的原因是iphone6这种屏幕属于高清屏，也即是设备像素比(device pixel ratio)dpr比较大，所以显示的像素较为清晰。
+
+2 一般手机的dpr是1，iphone4，iphone5这种高清屏是2，iphone6s plus这种高清屏是3，可以通过js的window.devicePixelRatio获取到当前设备的dpr，所以iphone6给的视觉稿大小是（\*2）750×1334了。
+
+3 拿到了dpr之后，我们就可以在viewport meta头里，取消让浏览器自动缩放页面，而自己去设置viewport的content例如（这里之所以要设置viewport是因为我们要实现border1px的效果，加入我给border设置了1px，在scale的影响下，高清屏中就会显示成0.5px的效果）
+
+`meta.setAttribute('content', 'initial-scale=' + 1/dpr + ', maximum-scale=' + 1/dpr + ', minimum-scale=' + 1/dpr + ', user-scalable=no');`
+
+4 设置完之后配合rem，修改
+
+```
+@function px2rem($px){
+    $rem : 75px;
+    @return ($px/$rem) + rem;
+}
+```
+
+双倍75，这样就可以完全按照视觉稿上的尺寸来了。不用在/2了，这样做的好处是：
+1 解决了图片高清问题。
+
+2 解决了border 1px问题（我们设置的1px，在iphone上，由于viewport的scale是0.5，所以就自然缩放成0.5px）

@@ -198,4 +198,30 @@ var obj = {
 }
 console.log(obj.dose().call(this));
 
+var k = c = 0;
+function a(n) {
+  return n ? (n-1)*a(n-1):n;
+    k++;c++;
+    if (c>10) {
+      return c
+    }
+}
+a(5)
+console.log(c);
+console.log(k);
 
+function cc(i) {
+  if (i == 3) {
+    i+=2
+  }
+  if (i == 5) {
+    i--
+  }
+  if (i == 4) {
+    i -= 2
+  }
+  return i
+}
+for (var i = 2; i < 6; i++) {
+  console.log(cc(i));
+}
