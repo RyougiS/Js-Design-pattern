@@ -169,64 +169,6 @@ Base.call(obj);
 // parseInt把传过来的索引值当成进制数来使用.从而返回了NaN.
 ```
 
-## 编写一个方法 求一个字符串的字节长度
-
-```
-function GetBytes(str){
-
-        var len = str.length;
-
-        var bytes = len;
-
-        for(var i=0; i<len; i++){
-
-            if (str.charCodeAt(i) > 255) bytes++;
-
-        }
-
-        return bytes;
-
-    }
-```
-
-## add(1)(2)(3)(4) 输出10
-
-### add(2, 5); // 7 add (2)(5); // 7
-
-```
-var add = function(x,r) {
-
-    if(arguments.length == 1){
-        return function(y) { return x + y; };
-    }else{
-        return x+r;
-    }
-};
-console.log(add(2)(5));
-console.log(add(2,5));
-
-```
-
-### add(1)(2)(3)(4)
-
-```
-function add(num){
-    var sum=0;
-    sum= sum+num;
-    return function tempFun(numB){
-        if(arguments.length===0){
-            return sum;
-        }else{
-            sum= sum+ numB;
-            return tempFun;
-        }
-
-    }
-}
-var result=add(2)(3)(4)(5)();
-console.log(result); //14
-
-```
 
 ## HttpRequest中常见的四种ContentType
 

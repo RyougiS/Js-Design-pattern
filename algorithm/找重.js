@@ -88,6 +88,7 @@ function maxChar (str) {
         temp[a] ? temp[a] += 1 : temp[a] = 1
     })
     var num = 0;
+    console.log(temp);
     for(var k in temp){
         if(temp[k]>num){
             num=temp[k]
@@ -120,4 +121,3 @@ var obj={};
         }
     }
 })(str)
-
