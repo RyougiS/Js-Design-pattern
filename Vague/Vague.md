@@ -154,6 +154,7 @@ Base.call(obj);
 
 ## `["1", "2", "3"].map(parseInt)`
 
+
 ```
 // 下面的语句返回什么呢:
 ["1", "2", "3"].map(parseInt);
@@ -171,6 +172,7 @@ Base.call(obj);
 
 
 ## HttpRequest中常见的四种ContentType
+
 
 说到 POST 提交数据方案，包含了 Content-Type 和消息主体编码方式两部分。下面就正式开始介绍它们。
 
