@@ -343,6 +343,24 @@ __以 new 操作符调用构造函数的时候，函数内部实际上发生以�
 - 2、属性和方法被加入到 this 引用的对象中。
 - 3、新创建的对象由 this 所引用，并且最后隐式的返回 this.
 
+```
+function imitateNew(func, ...args) {
+    let obj = Object.create(func.prototype);
+
+    let o = func.apply(obj, args);
+
+    return typeof o === 'object' ? o : obj;
+}
+
+let person = imitateNew(function(name, age) {
+      this.name = name;
+        this.age = age;
+}, 'Alima', 17)
+
+// {name: "Alima", age: 17}
+
+```
+
 ## Javascript作用链域
 
 - 全局函数无法查看局部函数的内部细节，但局部函数可以查看其上层的函数细节，直至全局细节。
