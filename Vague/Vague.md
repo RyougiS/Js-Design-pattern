@@ -331,7 +331,7 @@ apiRoutes.get('/image', function (req, res) {
         response.on('data', function (data) {    //加载到内存
             Data += data;
         }).on('end', function () {          //加载完
-            res.writeHead(200, { 'Access-Control-Allow-Origin': '*', "Content-Type": type });   //设置头，允许跨域
+            res.writeHead(200, { 'Access-Control-Allow-Origin': '\*', "Content-Type": type });   //设置头，允许跨域
             res.end(new Buffer(Data, 'binary'));
         })
     })
