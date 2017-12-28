@@ -108,7 +108,7 @@ correct().then(v => console.log(a)); // 1
 
 
 // 使用asnyc函数
-"presets": ["es2015", "stage-3"],
+"presets": ["es2015", "stage-3"]
 "plugins": ["transform-runtime"]
 
 
