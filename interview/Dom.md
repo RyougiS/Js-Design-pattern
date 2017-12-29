@@ -44,8 +44,26 @@ Node是一个接口，许多DOM类型从这个接口继承，并允许类似地�
 - removeChild()
 - replaceChild(newChild, oldChild)
 
+## Element
 
-### nodeType
+__属性__
+- attributes(只读)
+- className
+- id
+- innerHTML
+- tagName
+__方法__
+- addEventListener()
+- removeEventListener()
+- getAttribute()
+- hasAttribute()
+- setAttribute()
+- querySelector()
+- querySelectorAll
+
+>继承node ， Event
+
+## nodeType
 
 - ELEMENT_NODE    1
 - ATTRIBUTE_NODE  2  `弃用`
