@@ -17,6 +17,15 @@ DOM事件：
 
 > 1级DOM标准中并没有定义事件相关的内容，所以没有所谓的1级DOM事件模型。
 
+## 事件模型
+
+- 冒泡型事件：当你使用事件冒泡时，子级元素先触发，父级元素后触发；
+- 捕获型事件：当你使用事件捕获时，父级元素先触发，子级元素后触发；
+
+> DOM事件流：同时支持两种事件模型：捕获型事件和冒泡型事件
+>阻止冒泡：在W3c中，使用stopPropagation（）方法；在IE下设置cancelBubble = true
+>阻止捕获：阻止事件的默认行为，例如click - <a>后的跳转。在W3c中，使用preventDefault（）方法，在IE下设置window.event.returnValue = false  
+
 ### DOM 0级
 
 ```
