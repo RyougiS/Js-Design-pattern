@@ -24,7 +24,7 @@ DOM事件：
 
 > DOM事件流：同时支持两种事件模型：捕获型事件和冒泡型事件
 >阻止冒泡：在W3c中，使用stopPropagation（）方法；在IE下设置cancelBubble = true
->阻止捕获：阻止事件的默认行为，例如click - <a>后的跳转。在W3c中，使用preventDefault（）方法，在IE下设置window.event.returnValue = false  
+>阻止捕获：阻止事件的默认行为，例如click - \<a>后的跳转。在W3c中，使用preventDefault（）方法，在IE下设置window.event.returnValue = false  
 
 ### DOM 0级
 
@@ -177,7 +177,7 @@ function getEvent(event) {
 - target (node) — 事件起源的DOM节点
 - currentTarget?(node) — 当前回调函数被触发的DOM节点（后面会做比较详细的介绍）
 - bubbles (boolean) — 指明这个事件是否是一个冒泡事件（接下来会做解释）
-- preventDefault(function) — 这个方法将阻止浏览器中用户代理对当前事件的相关默认行为被触发。比如阻止<a>元素的click事件加载一个新的页面
+- preventDefault(function) — 这个方法将阻止浏览器中用户代理对当前事件的相关默认行为被触发。比如阻止\<a>元素的click事件加载一个新的页面
 - cancelable (boolean) — 这个变量指明这个事件的默认行为是否可以通过调用event.preventDefault来阻止。
 - stopPropagation (function) — 取消事件的进一步捕获或冒泡，bubbles为true使用这个方法
 - eventPhase：返回一个数字，表示事件目前所处的阶段，0为事件开始从DOM表层向目标元素传播，1为捕获阶段，2为事件到达目标元素，3为冒泡阶段。

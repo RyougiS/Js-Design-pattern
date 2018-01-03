@@ -119,7 +119,7 @@ function GetBytes(str){
       }
     }  //一般方法
 function getBytesLength(str) {
-  / 在GBK编码里，除了ASCII字符，其它都占两个字符宽
+  //在GBK编码里，除了ASCII字符，其它都占两个字符宽
   return str.replace(/[^\x00-\xff]/g, 'xx').length;
 }
 

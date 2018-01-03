@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    /* body,div,html{
+        margin: 0;
+        padding: 0;
+    } */
+    .box1{
+        width: 300px; height:150px;
+        position: relative;
+        background-color: blue;
+    }
+    .box2{
+        position: absolute; 
+        top: 0; right: 0; bottom: 0; left: 0;
+        width: 250px; height: 100px;
+        margin: auto; /*很重要 形成流式*/
+        background-color: aquamarine;
+    }
+    /* ---------------- */
+    /* .parent {
+        display: flex;
+        justify-content: center;  
+        align-items: center; 
+        height: 400px;
+    }  */
+   
+    /* ----------------- */
+    /* .parent {
+        text-align: center; 
+        display: table-cell;
+        vertical-align: middle; 
+        height: 400px;
+        width: 400px;
+    }
+    .child {
+        display: inline-block; 
+    } */
+    /* ---------------- */
+    /* .parent {
+        position: relative;
+        height: 400px;
+    }
+    .child {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    } */
+    /* ------------------ */
+    /* .parent {
+        position: relative;
+        height: 400px;
+    }
+    .child {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -50px 0 0 -50px;
+    } */
+    /* ------------------------ */
+    .parent{
+        position: relative;
+        height: 400px;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: -webkit-box;
+        -webkit-box-align: center;
+        -webkit-box-pack: center;
+    }
+    .child{
+        -webkit-box-flex: 0;
+    }
+    /* ========================= */
+    /* .chuizhi{
+        height: 100px;
+        width: 500px;
+        background-color: pink;
+        text-align: center;
+    }
+    .son-c{
+        display: inline-block;
+    } */
+    /* ------------------------ */
+    /* .chuizhi{
+        height: 100px;
+        width: 500px;
+        background-color: pink;
+    }
+    .son-c{
+        display: block;
+        margin: 0 auto;
+    } */
+    /* ------------------------ */
+    .chuizhi{
+        display: flex;
+        width: 500px;
+        justify-content: center;
+        background-color: aqua;
+    }
+    /* ------------------------- */
+    .chuizhi-2{
+        background-color: pink;
+        height: 400px;
+        width: 100%;
+    }
+    .son-c-2{position: absolute;left: 50%;}
+    .con{margin-left: -50%;width: 100%;}
+    /* ========================= */
+    </style>
+</head>
+<body>
+    <!-- 居中 -->
+    <div class="box1">
+        <div class="box2">
+        
+        </div>
+    </div>
+    
+    <div class="parent">
+        <div class="child">Demo</div>
+    </div>
+    <div class="chuizhi">
+        <!-- <div class="son-c">chuizhi</div> -->
+        <div class="son-c duoge">chuizhi</div>
+        <div class="son-c duoge">chuizhi</div>
+    </div>
+    <div class="chuizhi-2">
+        <div class="son-c-2">
+            <div class="con">rua</div>
+        </div>
+    </div>
+
+    <!-- 
+        水平居中
+        对于行内元素(inline)：text-align: center; 
+        对于块级元素(block)：设置宽度且 marigin-left 和 margin-right 是设成 auto 
+        对于多个块级元素：对父元素设置 text-align:center;对子元素设置 display: inline-block;；
+                        或者使用 flex 布局
+     -->
+     <!-- 
+        垂直居中
+        对于行内元素(inline) 
+            单行：设置上下 pandding 相等；或者设置 line-height 和 height 相等 
+            多行：设置上下 pandding 相等；或者设置 display: table-cell; 和 vertical-align:middle;；或者使用 flex 布局；或者使用伪元素 
+        对于块级元素(block)：下面前两种方案，父元素需使用相对布局 
+            已知高度：子元素使用绝对布局 top: 50%;，再用负的 margin-top 把子元素往上拉一半的高度 
+            未知高度：子元素使用绝对布局 position: absolute; top: 50%; transform: translateY(-50%); 
+        使用 Flexbox：选择方向，justify-content: center;
+      -->
+</body>
+</html>
