@@ -273,3 +273,106 @@ var f1 = foo(),f2 = foo();
 f1();
 f1();
 f2();
+
+var a = 6;
+setTimeout(function () {
+    console.log(a)
+    a = 666
+},1000)
+a = 66;
+
+console.log(1&&2);
+console.log(1||2);
+
+var a = 2;
+var func = (function () {
+    var a = 3;
+    return function () {
+        a++;
+        console.log(a);   
+    }
+})()
+
+func();
+func();
+
+window.val = 1;
+var json = {
+    val:10,
+    dbl:function () {
+        this.val += 2
+    }
+};
+json.dbl();
+var dbl = json.dbl;
+dbl();
+json.dbl.call(window)
+console.log(window.val + json.val);
+
+(function () {
+    var val = 1;
+    var json = {
+        val:10,
+        dbl:function () {
+            val *= 2;
+        }
+    };
+    json.dbl();
+    console.log(json.val + val);
+})();
+
+var foo = "hello";
+(function () {
+    var bar = "world";
+    console.log(foo+bar);
+})()
+console.log(foo+bar);
+
+var foo = {n:1};
+var bar = foo;
+foo.x = foo = {n:2}
+console.log(foo.x);
+console.log(foo);
+console.log(bar);
+
+var a = 1;
+function func() {
+    console.log(a);
+    var a = "inwindow"
+}
+func();
+console.log(a);
+
+(function () {
+    var a = b = "res"
+})()
+console.log(a);
+console.log(b);
+
+function func1() {
+    var n = 99;
+    nAdd = function () {
+        this.n += 1;
+        console.log(this.n);
+    };
+    function func2() {
+        console.log(n);
+    }
+    return func2
+}
+var res = func1();
+res();
+nAdd();
+res();
+
+var obj = {
+    name:"obj",
+    dose:function () {
+        this.name = "dose"
+        return function () {
+            return this.name
+        }
+    }
+}
+console.log(obj.dose().call(this));
+console.log([]||"");

@@ -80,7 +80,7 @@ function charStat (str) {
 }
 charStat(char);
 
-var char = "aaaaaaabbbbuuuhhhyyygggAAAvvvGGG"
+var char = "aaaaaaabbbbuuuhhhyyygggAAAvvvGGGaaaaaa"
 function maxChar (str) {
     var arr = char;
     var temp = {};

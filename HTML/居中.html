@@ -114,6 +114,15 @@
     .son-c-2{position: absolute;left: 50%;}
     .con{margin-left: -50%;width: 100%;}
     /* ========================= */
+    .test1{
+        box-sizing: border-box;
+        width: 40px;
+        border: 10px solid black;
+        background-color: blue;
+        padding: 10px;
+        height: 40px;
+        margin: 10px;
+    }
     </style>
 </head>
 <body>
@@ -137,7 +146,8 @@
             <div class="con">rua</div>
         </div>
     </div>
-
+    <div class="test1"></div>
+    <div class="key"></div>
     <!-- 
         水平居中
         对于行内元素(inline)：text-align: center; 
@@ -156,4 +166,10 @@
         使用 Flexbox：选择方向，justify-content: center;
       -->
 </body>
+<script>
+    var key = document.getElementsByClassName("key")[0]
+    key.addEventListener("keyUp",function (e) {
+        console.log(keyUp)
+    },false)
+</script>
 </html>

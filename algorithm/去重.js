@@ -91,6 +91,13 @@ function unique(arr) {
     return newArr;
 }
 
+function unique(array) {
+    var obj = {};
+    return array.filter(function (item, index, array) {
+        return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
+    })
+}
+
 //5.ES6----------------------------------------------
 function unique(arr){
      var set = new Set(arr);
@@ -106,7 +113,7 @@ var unique = (a) => [...new Set(a)]
 
 
 
-var arr = [1,1,'1','1',0,0,'0','0',undefined,undefined,null,null,NaN,NaN,{},{},[],[],/a/,/a/]
+var arr = [1,1,'1','1',0,0,'0','0',new String("1"),new String("1"),undefined,undefined,null,null,NaN,NaN,{},{},[],[],/a/,/a/]
 console.log(unique(arr));
 
 var str1 = '1';

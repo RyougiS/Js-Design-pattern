@@ -5,7 +5,7 @@
 * @Last Modified time: 2017-12-12 09:12:45
 */
 
-var arr = [1, [2, [3, 4,[7,8]5,6]]];
+var arr = [1, [2, [3, 4,[7,8],5,6]]];
 
 function flatten(arr) {
     return arr.toString().split(',').map(function(item){
@@ -16,15 +16,15 @@ function flatten(arr) {
 console.log(flatten(arr))
 
 //-------------------------------------------------------
-function flatten(arr) {
+function flatten1(arr) {
     return arr.reduce(function(prev, next){
         return prev.concat(Array.isArray(next) ? flatten(next) : next)
     }, [])
 }
 
-console.log(flatten(arr))
+console.log(flatten1(arr))
 //--------------------------------------------------------
-function flatten(arr) {
+function flatten2(arr) {
 
     while (arr.some(item => Array.isArray(item))) {
         arr = [].concat(...arr);
@@ -33,7 +33,7 @@ function flatten(arr) {
     return arr;
 }
 
-console.log(flatten(arr))
+console.log(flatten2(arr))
 
 //=======================================================
 //

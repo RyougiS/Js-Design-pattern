@@ -31,6 +31,10 @@ console.log(null == undefined);
 console.log(NaN != NaN);
 console.log(NaN == NaN);
 console.log(null == NaN);
+console.log(false == null);
+console.log(false == undefined);
+
+
 
 /*isNaN*/
 console.log(isNaN('0'));
