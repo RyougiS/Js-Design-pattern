@@ -156,3 +156,4 @@ function add(num){
 }
 var result=add(2)(3)(4)(5)();
 console.log(result); //14
+

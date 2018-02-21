@@ -35,6 +35,7 @@ console.log(false == null);
 console.log(false == undefined);
 
 
+console.log(Number({}));
 
 /*isNaN*/
 console.log(isNaN('0'));
@@ -121,6 +122,10 @@ Boolean(undefined)
 Boolean("")
 //false
 
+Boolean([])
+console.log(Boolean([]));
+
+
 
 /*
 隐式转换
@@ -148,3 +153,4 @@ null + undefined
 //NaN
 
 Object.prototype.toString.call([1,2]).slice(8,-1)
+console.log(Object.prototype.toString.call([1, 2]).slice(8, -1));

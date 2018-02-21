@@ -10,17 +10,17 @@ function deepClone(source) {
   if (!source || typeof source !== 'object') {
     return source;
   }
-  var targetObj = source.constructor === Array ? [] : {};
+  var obj = source.constructor === Array ? [] : {};
   for (var key in source) {
-    if (Object.prototype.hasOwnProperty.call(source, key) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
       if (source[key] && typeof source[key] === 'object') {
-        targetObj[key] = deepClone(source[key]);
+        obj[key] = deepClone(source[key]);
       } else {
-        targetObj[key] = source[key];
+        obj[key] = source[key];
       }
     }
   }
-  return targetObj;
+  return obj;
 }
 
 var object1 = {arr: [1, 2, 3], obj: {key: 'value' }, func: function(){return 1;}};

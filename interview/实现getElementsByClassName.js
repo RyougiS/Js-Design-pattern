@@ -28,3 +28,5 @@ function getElementsByClassName(element, names) {
         return result;
     }
 }
+
+
