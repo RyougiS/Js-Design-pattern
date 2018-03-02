@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="text">
+    {{ text }}
+  </div>
+</body>
+<script type="text/javascript">
+/*
+    //基本原理
+    var obj = {};
+    Object.defineProperty(obj,'hello',{
+        get:function () {
+            console.log("get调用");
+        },
+        set:function (val) {
+            console.log("set调用",val);
+        }
+    })
+    obj.hello // 读取属性，就是调用get函数并返回get函数的返回值
+    obj.hello = "abc" // 为属性赋值，就是调用set函数，赋值其实是传参
+*/
+    function observe (obj, vm) {
+      Object.keys(obj).forEach(function (key) {
+        defineReactive(vm, key, obj[key]);
+      })
+    }
+
+    function defineReactive(obj, key, val) {
+
+        var dep = new Dep();
+
+        Object.defineProperty(obj, key, {
+            get: function () {
+                // 添加订阅者 watcher 到主题对象 Dep
+                if (Dep.target) {
+                    dep.addSub(Dep.target);
+                }
+                return val
+            },
+            set: function (newVal) {
+                if (newVal === val) {
+                    return
+                }
+                val = newVal;
+                console.log(val);
+                dep.notify();//发布者发出通知
+            }
+        })
+    }
+
+    // var dom = nodeToFragment(document.getElementById('app'));
+    // console.log(dom);
+    function nodeToFragment(node,vm) {
+        var flag = document.createDocumentFragment();
+        var child;
+        // 首先，所有表达式必然会返回一个值，赋值表达式亦不例外
+        // 理解了上面这一点，就能理解 while (child = node.firstChild) 这种用法
+        // 其次，appendChild 方法有个隐蔽的地方，就是调用以后 child 会从原来 DOM 中移除
+        // 所以，第二次循环时，node.firstChild 已经不再是之前的第一个子元素了
+        while (child = node.firstChild) {
+            compile(child,vm);
+            flag.appendChild(child);//劫持所有node节点
+        }
+        return flag;
+    }
+    function compile(node,vm) {
+        var reg = /\{\{(.*)\}\}/;
+        //元素节点
+        if (node.nodeType === 1) {
+            var attr = node.attributes;
+            for (var i = 0; i < attr.length; i++) {
+                if (attr[i].nodeName == 'v-model') {
+                    var name = attr[i].nodeValue;//获取v-model绑定属性名称
+                    node.addEventListener('input',function (e){
+                        // 给相应的 data 属性赋值，进而触发该属性的 set 方法
+                        vm[name] = e.target.value;
+                    })
+                    node.value = vm[name]; //data值给node
+                    node.removeAttribute('v-model');
+                }
+            };
+
+            new Watcher(vm, node, name, 'input');
+        }
+        //text节点
+        if (node.nodeType === 3) {
+            if (reg.test(node.nodeValue)) {
+                var name = RegExp.$1;//获取匹配字符串
+                name = name.trim();
+
+                // node.nodeValue = vm[name];
+
+                new Watcher(vm,node,name,'text');
+                // 会为每个与数据绑定相关的节点生成一个订阅者 watcher，watcher 会将自己添加到相应属性的 dep 中
+                // 发出通知 dep.notify() => 触发订阅者的 update 方法 => 更新视图
+            }
+        }
+    }
+
+
+
+
+
+
+    function Watcher(vm,node,name,nodeType) {
+        Dep.target = this;
+        this.name = name;
+        this.node = node;
+        this.vm = vm;
+        this.nodeType = nodeType;
+        this.update();
+        Dep.target = null;
+    }
+    Watcher.prototype = {
+        update: function () {
+            this.get();
+            if (this.nodeType == 'text') {
+              this.node.nodeValue = this.value;
+            }
+            if (this.nodeType == 'input') {
+              this.node.value = this.value;
+            }
+      },
+        //获取data中属性值
+        get: function () {
+            this.value = this.vm[this.name];//触发相应的get
+        }
+    }
+    // 一个订阅发布
+    // 发布者发出通知 => 主题对象收到通知并推送给订阅者 => 订阅者执行相应操作
+    //让多个观察者同时监听某一个主题对象，这个主题对象的状态发生改变时就会通知所有观察者对象。
+
+
+    // Dep订阅对象
+    function Dep() {
+       this.subs = []
+    }
+    Dep.prototype = {
+        addSub: function (sub) {
+             this.subs.push(sub)
+        },
+        notify: function () {
+            this.subs.forEach(function (sub) {
+                sub.update();
+            })
+        }
+    }
+
+    function Vue(options) {
+            this.data = options.data;
+            var data = this.data;
+
+            observe(data, this);
+
+            var id = options.el;
+            var dom = nodeToFragment(document.getElementById(id), this);
+            // 编译后dom重新返回进html
+            document.getElementById(id).appendChild(dom);
+        }
+
+    var vm = new Vue({
+            el: 'app',
+            data: {
+                text: 'hello world'
+            }
+        })
+</script>
+</html>
